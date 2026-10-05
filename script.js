@@ -1,185 +1,154 @@
-const SECRET_CODE = "bloom";
-let currentTrackIndex = 0;
-let isPlaying = false;
-let allTracks = [];
+const SECRET_KEY = "bloom";
+let currentIndex = 0;
+let playing = false;
 
-// Canciones de ejemplo (streaming desde fuentes libres)
-const defaultTracks = [
-    {
-        title: "Night Owl",
-        artist: "Broke For Free",
-        url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
-    },
-    {
-        title: "Ambient Frequencies",
-        artist: "Kevin MacLeod",
-        url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
-    },
-    {
-        title: "Summer Breeze",
-        artist: "Anno Domini Beats",
-        url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
-    },
-    {
-        title: "Urban Jungle",
-        artist: "Ólafur Arnalds",
-        url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"
-    },
-    {
-        title: "Coffee Break",
-        artist: "Silent Partner",
-        url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3"
-    },
-    {
-        title: "Midnight Ride",
-        artist: "Dyalla",
-        url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3"
-    }
+const tracks = [
+  {
+    title: "Estudio Clásico I",
+    artist: "Archivo sonoro",
+    url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+  },
+  {
+    title: "Ritmo de biblioteca",
+    artist: "Colección académica",
+    url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
+  },
+  {
+    title: "Paisaje nocturno",
+    artist: "Sesión de estudio",
+    url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
+  },
+  {
+    title: "Composición del renacimiento",
+    artist: "Archivo didáctico",
+    url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"
+  }
 ];
 
-const audioPlayer = document.getElementById("audioPlayer");
+const audio = document.getElementById("audioPlayer");
 const playlist = document.getElementById("playlist");
 const nowPlaying = document.getElementById("nowPlaying");
-const playBtn = document.getElementById("playBtn");
+const playPauseBtn = document.getElementById("playPauseBtn");
 
-function renderPlaylist(filteredTracks = allTracks) {
-    playlist.innerHTML = "";
-    filteredTracks.forEach((track, index) => {
-        const item = document.createElement("div");
-        item.className = "track";
-        item.textContent = `${track.title} — ${track.artist}`;
-        item.onclick = () => {
-            currentTrackIndex = allTracks.indexOf(track);
-            loadTrack();
-            play();
-        };
-        playlist.appendChild(item);
-    });
+function renderPlaylist(items = tracks) {
+  playlist.innerHTML = "";
+  items.forEach((track, index) => {
+    const item = document.createElement("button");
+    item.type = "button";
+    item.className = "track-item";
+    item.textContent = `${track.title} — ${track.artist}`;
+    item.onclick = () => {
+      currentIndex = index;
+      loadTrack();
+      play();
+    };
+    playlist.appendChild(item);
+  });
 }
 
 function loadTrack() {
-    const track = allTracks[currentTrackIndex];
-    if (!track) return;
-    audioPlayer.src = track.url;
-    nowPlaying.innerHTML = `<strong>${track.title}</strong><br><span style="font-size: 0.9rem;">${track.artist}</span>`;
+  const track = tracks[currentIndex];
+  audio.src = track.url;
+  nowPlaying.innerHTML = `<strong>${track.title}</strong><br><span>${track.artist}</span>`;
 }
 
 function play() {
-    isPlaying = true;
-    audioPlayer.play();
-    playBtn.textContent = "⏸ Pausar";
+  playing = true;
+  audio.play();
+  playPauseBtn.textContent = "⏸ Pausar";
 }
 
 function pause() {
-    isPlaying = false;
-    audioPlayer.pause();
-    playBtn.textContent = "▶ Reproducir";
+  playing = false;
+  audio.pause();
+  playPauseBtn.textContent = "▶ Reproducir";
 }
 
 function togglePlay() {
-    if (isPlaying) {
-        pause();
-    } else {
-        play();
-    }
+  if (playing) pause();
+  else play();
 }
 
 function nextTrack() {
-    currentTrackIndex = (currentTrackIndex + 1) % allTracks.length;
-    loadTrack();
-    play();
+  currentIndex = (currentIndex + 1) % tracks.length;
+  loadTrack();
+  play();
 }
 
-function previousTrack() {
-    currentTrackIndex = (currentTrackIndex - 1 + allTracks.length) % allTracks.length;
-    loadTrack();
-    play();
+function prevTrack() {
+  currentIndex = (currentIndex - 1 + tracks.length) % tracks.length;
+  loadTrack();
+  play();
 }
 
 function checkAccess() {
-    const input = document.getElementById("searchInput").value.trim().toLowerCase();
+  const value = document.getElementById("searchInput").value.trim().toLowerCase();
 
-    if (input === SECRET_CODE) {
-        unlockMusicPlayer();
-        return;
-    }
+  if (value === SECRET_KEY) {
+    openMusic();
+    return;
+  }
 
-    // Búsquedas académicas normales
-    const academicResults = [
-        "renacimiento",
-        "literatura",
-        "romano",
-        "virgilio",
-        "cervantes",
-        "garcilaso",
-        "ovidio",
-        "cicerón"
-    ];
+  const academicTerms = [
+    "renacimiento",
+    "literatura",
+    "romano",
+    "virgilio",
+    "cervantes",
+    "garcilaso",
+    "ovidio",
+    "ciceron"
+  ];
 
-    if (academicResults.includes(input)) {
-        alert("Resultado encontrado: Información académica sobre literatura clásica disponible en la sección de recursos.");
-    } else {
-        alert("No se encontraron resultados. Intenta buscar términos relacionados con literatura o historia clásica.");
-    }
+  if (academicTerms.includes(value)) {
+    alert("Resultado académico encontrado en la sección de recursos del portal.");
+  } else {
+    alert("No se encontraron resultados académicos para esa búsqueda.");
+  }
 }
 
-function unlockMusicPlayer() {
-    document.getElementById("mainContent").style.display = "none";
-    document.getElementById("musicPlayer").style.display = "block";
-    if (allTracks.length === 0) {
-        allTracks = [...defaultTracks];
-        renderPlaylist();
-        loadTrack();
-    }
+function openMusic() {
+  document.getElementById("app").classList.add("hidden");
+  document.getElementById("musicSection").classList.remove("hidden");
+  renderPlaylist();
+  loadTrack();
 }
 
-function backToMain() {
-    document.getElementById("musicPlayer").style.display = "none";
-    document.getElementById("mainContent").style.display = "block";
-    pause();
+function closeMusic() {
+  document.getElementById("musicSection").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  pause();
 }
 
-function searchMusic() {
-    const term = document.getElementById("musicSearch").value.trim().toLowerCase();
+function searchTracks() {
+  const term = document.getElementById("musicSearch").value.trim().toLowerCase();
+  if (!term) {
+    renderPlaylist();
+    return;
+  }
 
-    if (!term) {
-        renderPlaylist(allTracks);
-        return;
-    }
+  const filtered = tracks.filter(track =>
+    track.title.toLowerCase().includes(term) || track.artist.toLowerCase().includes(term)
+  );
 
-    const filtered = allTracks.filter(track =>
-        track.title.toLowerCase().includes(term) ||
-        track.artist.toLowerCase().includes(term)
-    );
+  if (filtered.length === 0) {
+    alert("No hay resultados en la lista de recursos sonoros.");
+    return;
+  }
 
-    if (filtered.length === 0) {
-        alert("No se encontraron canciones con ese término.");
-        return;
-    }
-
-    renderPlaylist(filtered);
+  renderPlaylist(filtered);
+  currentIndex = 0;
+  loadTrack();
 }
 
-function handleMusicSearch(event) {
-    if (event.key === "Enter") {
-        searchMusic();
-    }
-}
+audio.addEventListener("ended", nextTrack);
 
-// Auto-play siguiente canción
-audioPlayer.addEventListener("ended", nextTrack);
-
-// Evento Enter en buscador principal
-document.addEventListener("DOMContentLoaded", () => {
-    const searchInput = document.getElementById("searchInput");
-    if (searchInput) {
-        searchInput.addEventListener("keydown", (event) => {
-            if (event.key === "Enter") checkAccess();
-        });
-    }
-
-    const musicSearch = document.getElementById("musicSearch");
-    if (musicSearch) {
-        musicSearch.addEventListener("keydown", handleMusicSearch);
-    }
+window.addEventListener("DOMContentLoaded", () => {
+  renderPlaylist();
+  document.getElementById("searchInput").addEventListener("keydown", (event) => {
+    if (event.key === "Enter") checkAccess();
+  });
+  document.getElementById("musicSearch").addEventListener("keydown", (event) => {
+    if (event.key === "Enter") searchTracks();
+  });
 });
