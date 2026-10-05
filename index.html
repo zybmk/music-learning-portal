@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instituto de Estudios Clásicos - Renacimiento Literario</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="mainContent">
+        <!-- PÁGINA EDUCATIVA (PÚBLICA) -->
+        <header class="header">
+            <div class="container">
+                <h1>📚 Instituto de Estudios Clásicos</h1>
+                <p class="subtitle">Exploración del Renacimiento Literario: Español y Romano</p>
+            </div>
+        </header>
+
+        <nav class="navbar">
+            <div class="container">
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#renacentimiento">Renacimiento Español</a></li>
+                    <li><a href="#romano">Literatura Romana</a></li>
+                    <li><a href="#recursos">Recursos</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="container">
+            <!-- SECCIÓN 1: INICIO -->
+            <section id="inicio" class="section">
+                <h2>Bienvenido al Portal Educativo</h2>
+                <p>Este sitio es un recurso académico dedicado al estudio del Renacimiento Literario Español y la Literatura Romana Clásica.</p>
+                <p>Explora los grandes autores, obras y movimientos que definieron estas épocas.</p>
+                
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Buscar en el portal...">
+                    <button onclick="checkAccess()">Buscar</button>
+                </div>
+            </section>
+
+            <!-- SECCIÓN 2: RENACIMIENTO ESPAÑOL -->
+            <section id="renacentimiento" class="section">
+                <h2>Renacimiento Español (Siglo XVI-XVII)</h2>
+                <div class="cards">
+                    <div class="card">
+                        <h3>Garcilaso de la Vega</h3>
+                        <p>Poeta renacentista español que revolucionó la métrica castellana con influencias italianas.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Miguel de Cervantes</h3>
+                        <p>Autor del Quijote, obra maestra de la literatura universal.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Luis de Góngora</h3>
+                        <p>Poeta culterano que llevó la lengua poética a sus límites.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN 3: LITERATURA ROMANA -->
+            <section id="romano" class="section">
+                <h2>Literatura Romana Clásica</h2>
+                <div class="cards">
+                    <div class="card">
+                        <h3>Virgilio</h3>
+                        <p>Autor de la Eneida, epopeya fundacional de la literatura occidental.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Ovidio</h3>
+                        <p>Poeta de las Metamorfosis, obra de gran influencia en el Renacimiento.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Cicerón</h3>
+                        <p>Orador y filósofo cuyo estilo influyó en toda la literatura posterior.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN 4: RECURSOS -->
+            <section id="recursos" class="section">
+                <h2>Recursos Educativos</h2>
+                <p>Accede a materiales de estudio, análisis de textos y referencias bibliográficas.</p>
+                <button class="btn-resource">Descargar Guía de Estudio</button>
+                <button class="btn-resource">Ver Cronología</button>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 Instituto de Estudios Clásicos. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+    <!-- MODAL DE ACCESO (OCULTO) -->
+    <div id="accessModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Acceso a Recursos Especiales</h2>
+            <p>Has desbloqueado una sección especial del portal.</p>
+            <button onclick="loadMusicPlayer()" class="btn-access">Continuar</button>
+        </div>
+    </div>
+
+    <!-- REPRODUCTOR DE MÚSICA (OCULTO) -->
+    <div id="musicPlayer" class="player-container hidden">
+        <div class="player-header">
+            <h2>🎵 Biblioteca Musical</h2>
+            <button class="btn-close" onclick="closeMusicPlayer()">✕</button>
+        </div>
+        
+        <div class="player-search">
+            <input type="text" id="musicSearch" placeholder="Buscar canciones..." onkeypress="handleSearch(event)">
+            <button onclick="searchMusic()">Buscar</button>
+        </div>
+
+        <div class="player-content">
+            <div id="playerControls" class="player-controls">
+                <button id="prevBtn" onclick="previousTrack()">⏮</button>
+                <button id="playBtn" onclick="togglePlay()">▶ Reproducir</button>
+                <button id="nextBtn" onclick="nextTrack()">⏭</button>
+            </div>
+
+            <div id="nowPlaying" class="now-playing">
+                <p>Selecciona una canción para comenzar</p>
+            </div>
+
+            <audio id="audioPlayer" controls style="width: 100%; margin: 15px 0;"></audio>
+
+            <div id="playlistContainer" class="playlist">
+                <h3>Canciones Disponibles</h3>
+                <div id="playlist" class="playlist-items"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
